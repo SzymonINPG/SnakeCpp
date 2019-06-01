@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/data">
-        <file>data/font.ttf</file>
-        <file>data/FreeKO_Fame.ogg</file>
-    </qresource>
-</RCC>
