@@ -14,6 +14,7 @@ public:
     static const int SCRN_HEIGHT = 768;
     static const int APPLE_SIZE = 32;
     enum {END, MENU, PLAY_STATE, FAILURE};
+    static string path_to_file(string);
 private:
     RenderWindow window;
     Font font;
@@ -22,6 +23,7 @@ private:
     int actualStateID;
     void changeState();
     void handleState();
+
 
 public:
     Game();
