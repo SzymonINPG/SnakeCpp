@@ -1,17 +1,24 @@
 #include "Snake.h"
 #include "Game.h"
+#include <iostream>
 
 
 
 using namespace sf;
 
-Snake::Snake()
-    :hasDirectionChanged(false)
+Snake::Snake() : hasDirectionChanged(false)
 {
     RectangleShape head;
-    head.setFillColor(Color(255, 10, 0, 120));
-    head.setSize(Vector2f((float)Game::APPLE_SIZE, (float)Game::APPLE_SIZE));
+
+    head.setFillColor(Color(10,200, 10, 100));
+    head.setSize(Vector2f(static_cast<float>(Game::APPLE_SIZE), static_cast<float>(Game::APPLE_SIZE)));
     head.setPosition(Game::SCRN_WIDTH/ 2, Game::SCRN_HEIGHT / 2);
+    head.setOutlineColor(Color(10,200, 100, 200));
+    head.setOutlineThickness(-4);
+//    Texture texture;
+//    texture.loadFromFile("C:/Projekty/SnakeGameCpp/MySnake/Pliki/body.png");
+//    _apple->setTexture(&texture);
+
 
     m_snakeParts.push_back(head);
 
@@ -82,46 +89,14 @@ void Snake::ChangeDirection(Direction dir)
 
 void Snake::AddBodyPart()
 {
-    RectangleShape bodyPart(Vector2f((float)Game::APPLE_SIZE, (float)Game::APPLE_SIZE));
+    RectangleShape bodyPart(Vector2f(static_cast<float>(Game::APPLE_SIZE), static_cast<float>(Game::APPLE_SIZE)));
 
-    setRainbowColor(bodyPart);
-
-    bodyPart.setOutlineThickness(-2.f);
-    bodyPart.setSize(Vector2f((float)Game::APPLE_SIZE, (float)Game::APPLE_SIZE));
+    bodyPart.setFillColor(Color(10,200, 10, 200));
+    bodyPart.setSize(Vector2f(static_cast<float>(Game::APPLE_SIZE), static_cast<float>(Game::APPLE_SIZE)));
     bodyPart.setPosition(-32, -32);
+    bodyPart.setOutlineColor(Color(10,200, 100, 200));
+    bodyPart.setOutlineThickness(-4);
     m_snakeParts.push_back(bodyPart);
-}
-
-void Snake::setRainbowColor(RectangleShape& bodyPart)
-{
-    Color bodyPartColor = Color(255, 125, 0);
-
-//    switch ((int)((m_snakeParts.size() - 1) % 150) / 25)
-//    {
-//    case 0:
-//        bodyPartColor = Color(255, 10 * ((m_snakeParts.size() - 1) % 25), 0);
-//        break;
-//    case 1:
-//        bodyPartColor = Color(255 - 10 * ((m_snakeParts.size() - 1) % 25), 255, 0);
-//        break;
-//    case 2:
-//        bodyPartColor = Color(0, 255, 10 * ((m_snakeParts.size() - 1) % 25));
-//        break;
-//    case 3:
-//        bodyPartColor = Color(0, 255 - 10 * ((m_snakeParts.size() - 1) % 25), 255);
-//        break;
-//    case 4:
-//        bodyPartColor = Color(10 * ((m_snakeParts.size() - 1) % 25), 0, 255);
-//        break;
-//    case 5:
-//        bodyPartColor = Color(255, 0, 255 - 10 * ((m_snakeParts.size() - 1) % 25));
-//        break;
-
-//    }
-//    bodyPartColor.a = 60;
-//    bodyPart.setFillColor(bodyPartColor);
-//    bodyPartColor.a = 80;
-//    bodyPart.setOutlineColor(bodyPartColor);
 }
 
 bool Snake::IsSelfBitting()

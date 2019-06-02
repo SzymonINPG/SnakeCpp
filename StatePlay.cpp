@@ -6,8 +6,8 @@
 StatePlay::StatePlay(int STATE_ID, RenderWindow& window, Font& font)
     :State(STATE_ID, window, font),
     endOfGame(false),
-    switchToFailureScreen(false),
     drawSnake(true),
+    switchToFailureScreen(false),
     alphaColorChannel(0) {}
 
 
@@ -22,7 +22,7 @@ StatePlay::~StatePlay()
 
 Vector2f StatePlay::getRandomPosition()
 {
-    srand((unsigned int)time(nullptr));
+    srand(static_cast<unsigned int>(time(nullptr)));
 
     Vector2i max(Game::SCRN_WIDTH / Game::APPLE_SIZE, Game::SCRN_HEIGHT / Game::APPLE_SIZE);
     Vector2f randomPosition;
@@ -30,7 +30,7 @@ Vector2f StatePlay::getRandomPosition()
     do
     {
         randomPosition = Vector2f(float(rand() % max.x), float(rand() % max.y));
-    } while (_snake->contains(randomPosition*(float)Game::APPLE_SIZE));
+    } while (_snake->contains(randomPosition*static_cast<float>(Game::APPLE_SIZE)));
 
     return randomPosition;
 }
@@ -42,11 +42,11 @@ void StatePlay::setBackground()
         for (int i = 0; i < Game::SCRN_HEIGHT / Game::APPLE_SIZE; i++)
         {
             RectangleShape square;
-            square.setSize(Vector2f((float)Game::APPLE_SIZE, (float)Game::APPLE_SIZE));
+            square.setSize(Vector2f(static_cast<float>(Game::APPLE_SIZE), static_cast<float>(Game::APPLE_SIZE)));
             square.setFillColor(Color::Black);
             square.setOutlineThickness(-1.f);
             square.setOutlineColor(Color(55, 55, 55));
-            square.setPosition(Vector2f(j*(float)Game::APPLE_SIZE, i*(float)Game::APPLE_SIZE));
+            square.setPosition(Vector2f(j*static_cast<float>(Game::APPLE_SIZE), i*static_cast<float>(Game::APPLE_SIZE)));
             mapTiles.push_back(square);
         }
 
@@ -63,9 +63,9 @@ void StatePlay::init()
     music.setLoop(true);
     music.setRelativeToListener(true);
 
-    _apple->setSize(Vector2f((float)Game::APPLE_SIZE, (float)Game::APPLE_SIZE));
-    _apple->setPosition(getRandomPosition() *(float)Game::APPLE_SIZE);
-    _apple->setFillColor(Color(255, 200, 0));
+    _apple->setSize(Vector2f(static_cast<float>(Game::APPLE_SIZE), static_cast<float>(Game::APPLE_SIZE)));
+    _apple->setPosition(getRandomPosition() *static_cast<float>(Game::APPLE_SIZE));
+    _apple->setFillColor(Color::Red);
 
     setBackground();
     mapBounds = FloatRect(0, 0, Game::SCRN_WIDTH, Game::SCRN_HEIGHT);
@@ -93,15 +93,12 @@ void StatePlay::update()
             return;
         }
 
-//        setAppleFillColor();
-        _apple->setFillColor(Color(255, 200, 0));
-
         _snake->Move();
 
 
         if (_snake->GetHeadFloatRect() == _apple->getGlobalBounds())
         {
-            _apple->setPosition(getRandomPosition()*(float)Game::APPLE_SIZE);
+            _apple->setPosition(getRandomPosition()*static_cast<float>(Game::APPLE_SIZE));
             _snake->AddBodyPart();
         }
 

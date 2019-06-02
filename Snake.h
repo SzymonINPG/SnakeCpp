@@ -9,6 +9,8 @@ using namespace sf;
 class Snake : public Drawable
 {
 public:
+
+
     Snake();
     ~Snake() override;
 
@@ -25,6 +27,7 @@ public:
     bool IsSelfBitting();
     bool contains(const Vector2f& position);
 
+
     virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;
 
 private:
@@ -34,5 +37,4 @@ private:
 
     Vector2f getMovement();
     Vector2f getDirection();
-    void setRainbowColor(RectangleShape& bodyPart);
 };
