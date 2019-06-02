@@ -67,11 +67,11 @@ string Game::path_to_file(string type)
     str_path.resize(last_slash+1,'-');
     if(type=="fond")
     {
-    str_path +="MySnake/Pliki/font2.ttf";
+    str_path +="SnakeCpp-Test/Pliki/font2.ttf";
     }
     else if (type == "music")
     {
-    str_path +="MySnake/Pliki/FreeKO_Fame.ogg";
+    str_path +="SnakeCpp-Test/Pliki/FreeKO_Fame.ogg";
     }
     return str_path;
 }
