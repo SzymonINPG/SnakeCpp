@@ -59,7 +59,7 @@ void StatePlay::init()
 
     _apple = new RectangleShape();
 
-    music.openFromFile("C:/Projekty/SnakeGameCpp/MySnake/Pliki/FreeKO_Fame.ogg");
+    music.openFromFile(Game::path_to_file("music"));
     music.setLoop(true);
     music.setRelativeToListener(true);
 
