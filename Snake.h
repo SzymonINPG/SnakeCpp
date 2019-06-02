@@ -28,7 +28,7 @@ public:
     bool contains(const Vector2f& position);
 
 
-    virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget & target, sf::RenderStates ) const override;
 
 private:
     std::vector <sf::RectangleShape> m_snakeParts;

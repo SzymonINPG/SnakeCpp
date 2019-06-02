@@ -45,7 +45,7 @@ void StateMenu::menuOptionsInit()
         menuOptions[i].setCharacterSize(64);
         menuOptions[i].setFillColor(Color::White);
         menuOptions[i].setOrigin(Vector2f(menuOptions[i].getGlobalBounds().width / 2.f, menuOptions[i].getGlobalBounds().height / 2.f));
-        menuOptions[i].setPosition(Vector2f(static_cast<float>(Game::SCRN_WIDTH) / 2.f, static_cast<float>(Game::SCRN_HEIGHT) / 2.f - (float)32 + 2.5*(float)i*(float)32));
+        menuOptions[i].setPosition(Vector2f(static_cast<float>(Game::SCRN_WIDTH) / 2.f, static_cast<float>(Game::SCRN_HEIGHT) / 2.f - 32.f + 2.5f*static_cast<float>(i)*32.f));
     }
 }
 

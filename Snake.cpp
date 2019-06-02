@@ -133,13 +133,12 @@ bool Snake::contains(const Vector2f& position)
 }
 
 
-void Snake::draw(RenderTarget & target, RenderStates states) const
+void Snake::draw(RenderTarget & target, RenderStates )  const
 {
     for (unsigned int i = 0; i < m_snakeParts.size(); i++)
     {
         target.draw(m_snakeParts[i]);
     }
-
 }
 
 Vector2f Snake::GetHeadPosition()

@@ -41,7 +41,7 @@ void StateFail::menuOptionsInit()
         menuOptions[i].setCharacterSize(64);
         menuOptions[i].setFillColor(Color::White);
         menuOptions[i].setOrigin(Vector2f(menuOptions[i].getGlobalBounds().width / 2.f, menuOptions[i].getGlobalBounds().height / 2.f));
-        menuOptions[i].setPosition(Vector2f((float)Game::SCRN_WIDTH / 2.f, (float)Game::SCRN_HEIGHT / 2.f - (float)Game::APPLE_SIZE + 2.5* (float)i*(float)Game::APPLE_SIZE));
+        menuOptions[i].setPosition(Vector2f(static_cast<float>(Game::SCRN_WIDTH) / 2.f, static_cast<float>(Game::SCRN_HEIGHT) / 2.f - static_cast<float>(Game::APPLE_SIZE) + 2.5f* static_cast<float>(i)*static_cast<float>(Game::APPLE_SIZE)));
     }
 }
 

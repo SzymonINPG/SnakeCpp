@@ -93,7 +93,10 @@ void Game::changeState()
             actualState = new StatePlay(PLAY_STATE, window, font);
             break;
         case FAILURE:
-            Image screenShot = window.capture();
+            Texture texture;
+            texture.create(SCRN_WIDTH,SCRN_HEIGHT);
+            texture.update(window);
+            Image screenShot = texture.copyToImage();
             actualState = new StateFail(FAILURE, window, font, screenShot);
             break;
     }

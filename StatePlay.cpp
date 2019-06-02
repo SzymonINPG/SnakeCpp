@@ -120,13 +120,14 @@ bool StatePlay::doesFailureOccurs()
 
 void StatePlay::handleFailure()
 {
-    music.setPitch(music.getPitch()*0.95);
-    music.setVolume(music.getVolume() *0.95);
+    music.setPitch(music.getPitch()*0.95f);
+    music.setVolume(music.getVolume() *0.95f);
 
     if (!playFailureAnimation())switchToFailureScreen = true;
 
     alphaColorChannel+= 1.5f;
-    transparentBackgroundLayer.setFillColor(Color(0, 0, 0, alphaColorChannel));
+
+    transparentBackgroundLayer.setFillColor(Color(0, 0, 0, static_cast<unsigned char>(alphaColorChannel)));
 }
 
 int StatePlay::handleEvents(Event& event)
