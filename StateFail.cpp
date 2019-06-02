@@ -11,9 +11,7 @@ StateFail::StateFail(int STATE_ID, RenderWindow& window, Font& font, Image& imag
 }
 
 
-StateFail::~StateFail()
-{
-}
+StateFail::~StateFail(){}
 
 void StateFail::init()
 {
@@ -23,12 +21,12 @@ void StateFail::init()
 
 void StateFail::titleInit()
 {
-    title.setString("YOU LOOSE!");
+    title.setString(":( Try Again!");
     title.setFont(*_font);
     title.setCharacterSize(86);
-    title.setColor(Color::Cyan);
+    title.setFillColor(Color::Cyan);
     title.setOrigin(Vector2f(title.getGlobalBounds().width / 2.f, title.getGlobalBounds().height / 2.f));
-    title.setPosition(Vector2f(Game::SCRN_WIDTH / 2.f, (float)Game::APPLE_SIZE));
+    title.setPosition(Vector2f(Game::SCRN_WIDTH / 2.f, static_cast<float>(Game::APPLE_SIZE)));
 }
 
 void StateFail::menuOptionsInit()
@@ -41,7 +39,7 @@ void StateFail::menuOptionsInit()
         menuOptions[i].setString(menuOptionsStrings[i]);
         menuOptions[i].setFont(*_font);
         menuOptions[i].setCharacterSize(64);
-        menuOptions[i].setColor(Color::White);
+        menuOptions[i].setFillColor(Color::White);
         menuOptions[i].setOrigin(Vector2f(menuOptions[i].getGlobalBounds().width / 2.f, menuOptions[i].getGlobalBounds().height / 2.f));
         menuOptions[i].setPosition(Vector2f((float)Game::SCRN_WIDTH / 2.f, (float)Game::SCRN_HEIGHT / 2.f - (float)Game::APPLE_SIZE + 2.5* (float)i*(float)Game::APPLE_SIZE));
     }
@@ -49,13 +47,13 @@ void StateFail::menuOptionsInit()
 
 void StateFail::update()
 {
-    Vector2f mousePosition = Vector2f((float)Mouse::getPosition(*_window).x, (float)Mouse::getPosition(*_window).y);
+    Vector2f mousePosition = Vector2f(static_cast<float>(Mouse::getPosition(*_window).x), static_cast<float>(Mouse::getPosition(*_window).y));
 
     for (int i = 0; i < 2; i++)
     {
         if (menuOptions[i].getGlobalBounds().contains(mousePosition))
-            menuOptions[i].setColor(sf::Color::Cyan);
-        else menuOptions[i].setColor(sf::Color::White);
+            menuOptions[i].setFillColor(sf::Color::Cyan);
+        else menuOptions[i].setFillColor(sf::Color::White);
     }
 
 }
@@ -63,7 +61,7 @@ void StateFail::update()
 int StateFail::handleEvents(Event& event)
 {
 
-    Vector2f mousePosition = Vector2f((float)Mouse::getPosition(*_window).x, (float)Mouse::getPosition(*_window).y);
+    Vector2f mousePosition = Vector2f(static_cast<float>(Mouse::getPosition(*_window).x), static_cast<float>(Mouse::getPosition(*_window).y));
 
     while (_window->pollEvent(event))
     {

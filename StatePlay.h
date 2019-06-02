@@ -22,6 +22,8 @@ private:
     RectangleShape transparentBackgroundLayer;
     Texture appleTexture;
 
+
+
     bool endOfGame;
     bool drawSnake;
     bool switchToFailureScreen;
