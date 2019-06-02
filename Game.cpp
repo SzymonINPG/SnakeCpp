@@ -3,6 +3,11 @@
 #include <iostream>
 
 
+#include <stdio.h>
+#include <unistd.h>
+#include <string>
+
+
 
 
 Game::Game()
@@ -15,7 +20,8 @@ Game::Game()
     window.clear();
     window.display();
 
- if (!font.loadFromFile("C:/Projekty/SnakeGameCpp/MySnake/Pliki/font2.ttf"))
+
+ if (!font.loadFromFile(Game::path_to_file("fond")))
    {
        std::cout << "Nie moge znalezc czcionki!"<< std::endl;
         return;
@@ -43,6 +49,36 @@ void Game::runGame()
     }
     window.close();
 }
+
+string Game::path_to_file(string type)
+{
+    char the_path[256];
+    getcwd(the_path, 255);
+    string str_path(the_path);
+    size_t last_slash = 0;
+    for(unsigned int i= 0 ; i<str_path.length(); i++)
+    {
+     if(str_path[i]=='\\')
+     {
+         str_path[i]='/';
+         last_slash = i;
+     }
+    }
+    str_path.resize(last_slash+1,'-');
+    if(type=="fond")
+    {
+    str_path +="MySnake/Pliki/font2.ttf";
+    }
+    else if (type == "music")
+    {
+    str_path +="MySnake/Pliki/FreeKO_Fame.ogg";
+    }
+    return str_path;
+}
+
+
+
+
 
 void Game::changeState()
 {
