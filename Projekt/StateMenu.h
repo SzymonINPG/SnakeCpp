@@ -11,15 +11,15 @@ public:
 
 private:
     Text title;
-    Text menuOptions[2];
+    Text options[2];
 
     void TextInit();
     void menuOptionsInit();
 
 public:
     virtual void init() override;
-    virtual void update() override;
-    virtual int handleEvents(Event&) override;
+    virtual void refresh() override;
+    virtual int handleEvent(Event&) override;
     virtual void render() override;
 };
 

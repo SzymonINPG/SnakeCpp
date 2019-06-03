@@ -28,11 +28,11 @@ public:
     bool contains(const Vector2f& position);
 
 
-    virtual void draw(sf::RenderTarget & target, sf::RenderStates ) const override;
+    virtual void draw(sf::RenderTarget & target, sf::RenderStates) const override;
 
 private:
-    std::vector <sf::RectangleShape> m_snakeParts;
-    Direction m_direction;
+    std::vector <sf::RectangleShape> snakeParts;
+    Direction snakeDirection;
     bool hasDirectionChanged;
 
     Vector2f getMovement();

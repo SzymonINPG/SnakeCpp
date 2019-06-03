@@ -11,11 +11,11 @@
 
 
 Game::Game()
-    :actualStateID(END)
+    :currentStateID(END)
 {
     ContextSettings settings;
     settings.antialiasingLevel = 8;
-    window.create(VideoMode(SCRN_WIDTH, SCRN_HEIGHT), "Snake Project", Style::Close, settings);
+    window.create(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Snake na Projekt", Style::Close, settings);
     window.setFramerateLimit(60);
     window.clear();
     window.display();
@@ -23,11 +23,11 @@ Game::Game()
 
  if (!font.loadFromFile(Game::path_to_file("fond")))
    {
-       std::cout << "Nie moge znalezc czcionki!"<< std::endl;
+       std::cout << "Nie moge zaladowac czcionki!"<< std::endl;
         return;
     }
 
-    actualStateID=MENU;
+    currentStateID=MENU;
 }
 
 
@@ -37,18 +37,20 @@ Game::~Game()
 
 void Game::runGame()
 {
-    actualState = new StateMenu(MENU, window, font);
-    actualState->init();
+    currentState = new StateMenu(MENU, window, font);
+    currentState->init();
 
-    while (actualStateID != END)
+    while (currentStateID != END)
     {
-        if (actualStateID != actualState->getSTATE_ID())
+        if (currentStateID != currentState->getSTATE_ID())
             changeState();
 
         handleState();
     }
     window.close();
 }
+
+//Poniewaz z niewiadomych powodow Qt Creator nie potrafil znajdywac sciezki do potrzebnych plikow, stworzylismy do tego odpowiednia funkcje :)
 
 string Game::path_to_file(string type)
 {
@@ -67,11 +69,11 @@ string Game::path_to_file(string type)
     str_path.resize(last_slash+1,'-');
     if(type=="fond")
     {
-    str_path +="SnakeCpp-Test/Pliki/font2.ttf";
+    str_path +="Projekt/Pliki/font2.ttf";
     }
     else if (type == "music")
     {
-    str_path +="SnakeCpp-Test/Pliki/FreeKO_Fame.ogg";
+    str_path +="Projekt/Pliki/snake_4.ogg";
     }
     return str_path;
 }
@@ -82,31 +84,31 @@ string Game::path_to_file(string type)
 
 void Game::changeState()
 {
-    delete actualState;
+    delete currentState;
 
-    switch (actualStateID)
+    switch (currentStateID)
     {
         case MENU:
-            actualState = new StateMenu(MENU, window, font);
+            currentState = new StateMenu(MENU, window, font);
             break;
-        case PLAY_STATE:
-            actualState = new StatePlay(PLAY_STATE, window, font);
+        case PLAY:
+            currentState = new StatePlay(PLAY, window, font);
             break;
         case FAILURE:
             Texture texture;
-            texture.create(SCRN_WIDTH,SCRN_HEIGHT);
+            texture.create(SCREEN_WIDTH,SCREEN_HEIGHT);
             texture.update(window);
             Image screenShot = texture.copyToImage();
-            actualState = new StateFail(FAILURE, window, font, screenShot);
+            currentState = new StateFail(FAILURE, window, font, screenShot);
             break;
     }
 
-    actualState->init();
+    currentState->init();
 }
 
 void Game::handleState()
 {
-    actualStateID = actualState->handleEvents(event);
-    actualState->update();
-    actualState->render();
+    currentStateID = currentState->handleEvent(event);
+    currentState->refresh();
+    currentState->render();
 }

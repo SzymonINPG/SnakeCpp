@@ -14,31 +14,28 @@ public:
 
 private:
     Snake* _snake;
-    RectangleShape* _apple;
+    RectangleShape* _food;
     Clock clock;
-    vector <RectangleShape> mapTiles;
-    FloatRect mapBounds;
+    vector <RectangleShape> fieldBoxes;
+    FloatRect fieldLines;
     Music music;
-    RectangleShape transparentBackgroundLayer;
-    Texture appleTexture;
+    RectangleShape backgroundLayer;
 
-
-
-    bool endOfGame;
+    bool endgame;
     bool drawSnake;
-    bool switchToFailureScreen;
+    bool changeToFailScreen;
 
     Vector2f getRandomPosition();
     void setBackground();
 
-    bool playFailureAnimation();
-    bool doesFailureOccurs();
-    void handleFailure();
-    float alphaColorChannel;
+    bool failAnimation();
+    bool isFailHappening();
+    void handleFail();
+    float colorAlpha;
 public:
     virtual void init() override;
-    virtual void update() override;
-    virtual int handleEvents(Event&) override;
+    virtual void refresh() override;
+    virtual int handleEvent(Event&) override;
     virtual void render() override;
 
 };

@@ -10,17 +10,17 @@
 class Game
 {
 public:
-    static const int SCRN_WIDTH = 1280;
-    static const int SCRN_HEIGHT = 768;
-    static const int APPLE_SIZE = 32;
-    enum {END, MENU, PLAY_STATE, FAILURE};
+    static const int SCREEN_WIDTH = 640;
+    static const int SCREEN_HEIGHT = 640;
+    static const int BLOCK_SIZE = 32;
+    enum {END, MENU, PLAY, FAILURE};
     static string path_to_file(string);
 private:
     RenderWindow window;
     Font font;
     Event event;
-    State * actualState;
-    int actualStateID;
+    State * currentState;
+    int currentStateID;
     void changeState();
     void handleState();
 

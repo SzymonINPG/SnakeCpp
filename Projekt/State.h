@@ -10,8 +10,8 @@ public:
     State(int STATE_ID, RenderWindow&, Font& font);
     virtual ~State();
     virtual void init() = 0;
-    virtual void update() = 0;
-    virtual int handleEvents(Event&) = 0;
+    virtual void refresh() = 0;
+    virtual int handleEvent(Event&) = 0;
     virtual void render() = 0;
     int getSTATE_ID() const;
 

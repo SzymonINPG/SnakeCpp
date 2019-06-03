@@ -5,17 +5,17 @@
 
 StatePlay::StatePlay(int STATE_ID, RenderWindow& window, Font& font)
     :State(STATE_ID, window, font),
-    endOfGame(false),
+    endgame(false),
     drawSnake(true),
-    switchToFailureScreen(false),
-    alphaColorChannel(0) {}
+    changeToFailScreen(false),
+    colorAlpha(0) {}
 
 
 
 StatePlay::~StatePlay()
 {
     delete _snake;
-    delete _apple;
+    delete _food;
     music.stop();
 
 }
@@ -24,13 +24,13 @@ Vector2f StatePlay::getRandomPosition()
 {
     srand(static_cast<unsigned int>(time(nullptr)));
 
-    Vector2i max(Game::SCRN_WIDTH / Game::APPLE_SIZE, Game::SCRN_HEIGHT / Game::APPLE_SIZE);
+    Vector2i max(Game::SCREEN_WIDTH / Game::BLOCK_SIZE, Game::SCREEN_HEIGHT / Game::BLOCK_SIZE);
     Vector2f randomPosition;
 
     do
     {
         randomPosition = Vector2f(float(rand() % max.x), float(rand() % max.y));
-    } while (_snake->contains(randomPosition*static_cast<float>(Game::APPLE_SIZE)));
+    } while (_snake->contains(randomPosition*static_cast<float>(Game::BLOCK_SIZE)));
 
     return randomPosition;
 }
@@ -38,16 +38,16 @@ Vector2f StatePlay::getRandomPosition()
 void StatePlay::setBackground()
 {
 
-    for (int j = 0; j < Game::SCRN_WIDTH / Game::APPLE_SIZE; j++)
-        for (int i = 0; i < Game::SCRN_HEIGHT / Game::APPLE_SIZE; i++)
+    for (int j = 0; j < Game::SCREEN_WIDTH / Game::BLOCK_SIZE; j++)
+        for (int i = 0; i < Game::SCREEN_HEIGHT / Game::BLOCK_SIZE; i++)
         {
             RectangleShape square;
-            square.setSize(Vector2f(static_cast<float>(Game::APPLE_SIZE), static_cast<float>(Game::APPLE_SIZE)));
+            square.setSize(Vector2f(static_cast<float>(Game::BLOCK_SIZE), static_cast<float>(Game::BLOCK_SIZE)));
             square.setFillColor(Color::Black);
             square.setOutlineThickness(-1.f);
             square.setOutlineColor(Color(55, 55, 55));
-            square.setPosition(Vector2f(j*static_cast<float>(Game::APPLE_SIZE), i*static_cast<float>(Game::APPLE_SIZE)));
-            mapTiles.push_back(square);
+            square.setPosition(Vector2f(j*static_cast<float>(Game::BLOCK_SIZE), i*static_cast<float>(Game::BLOCK_SIZE)));
+            fieldBoxes.push_back(square);
         }
 
 }
@@ -57,22 +57,22 @@ void StatePlay::init()
 
     _snake = new Snake();
 
-    _apple = new RectangleShape();
+    _food = new RectangleShape();
 
     music.openFromFile(Game::path_to_file("music"));
     music.setLoop(true);
     music.setRelativeToListener(true);
 
-    _apple->setSize(Vector2f(static_cast<float>(Game::APPLE_SIZE), static_cast<float>(Game::APPLE_SIZE)));
-    _apple->setPosition(getRandomPosition() *static_cast<float>(Game::APPLE_SIZE));
-    _apple->setFillColor(Color::Red);
+    _food->setSize(Vector2f(static_cast<float>(Game::BLOCK_SIZE), static_cast<float>(Game::BLOCK_SIZE)));
+    _food->setPosition(getRandomPosition() *static_cast<float>(Game::BLOCK_SIZE));
+    _food->setFillColor(Color::Red);
 
     setBackground();
-    mapBounds = FloatRect(0, 0, Game::SCRN_WIDTH, Game::SCRN_HEIGHT);
+    fieldLines = FloatRect(0, 0, Game::SCREEN_WIDTH, Game::SCREEN_HEIGHT);
 
-    transparentBackgroundLayer.setPosition(Vector2f(0,0));
-    transparentBackgroundLayer.setSize(Vector2f(Game::SCRN_WIDTH, Game::SCRN_HEIGHT));
-    transparentBackgroundLayer.setFillColor(Color(0, 0, 0, 0));
+    backgroundLayer.setPosition(Vector2f(0,0));
+    backgroundLayer.setSize(Vector2f(Game::SCREEN_WIDTH, Game::SCREEN_HEIGHT));
+    backgroundLayer.setFillColor(Color(0, 0, 0, 0));
 
     music.setVolume(10.f);
     music.play();
@@ -82,23 +82,23 @@ void StatePlay::init()
 }
 
 
-void StatePlay::update()
+void StatePlay::refresh()
 {
 
-    if (clock.getElapsedTime().asMilliseconds() > 125 && !endOfGame)
+    if (clock.getElapsedTime().asMilliseconds() > 125 && !endgame)
     {
-        if (doesFailureOccurs())
+        if (isFailHappening())
         {
-            endOfGame = true;
+            endgame = true;
             return;
         }
 
         _snake->Move();
 
 
-        if (_snake->GetHeadFloatRect() == _apple->getGlobalBounds())
+        if (_snake->GetHeadFloatRect() == _food->getGlobalBounds())
         {
-            _apple->setPosition(getRandomPosition()*static_cast<float>(Game::APPLE_SIZE));
+            _food->setPosition(getRandomPosition()*static_cast<float>(Game::BLOCK_SIZE));
             _snake->AddBodyPart();
         }
 
@@ -106,31 +106,31 @@ void StatePlay::update()
 
     }
 
-    else if (endOfGame)
-        handleFailure();
+    else if (endgame)
+        handleFail();
 }
 
-bool StatePlay::doesFailureOccurs()
+bool StatePlay::isFailHappening()
 {
-    if (_snake->IsSelfBitting() || !mapBounds.contains(_snake->GetHeadPosition()))
+    if (_snake->IsSelfBitting() || !fieldLines.contains(_snake->GetHeadPosition()))
         return true;
 
     return false;
 }
 
-void StatePlay::handleFailure()
+void StatePlay::handleFail()
 {
     music.setPitch(music.getPitch()*0.95f);
     music.setVolume(music.getVolume() *0.95f);
 
-    if (!playFailureAnimation())switchToFailureScreen = true;
+    if (!failAnimation())changeToFailScreen = true;
 
-    alphaColorChannel+= 1.5f;
+    colorAlpha+= 1.5f;
 
-    transparentBackgroundLayer.setFillColor(Color(0, 0, 0, static_cast<unsigned char>(alphaColorChannel)));
+    backgroundLayer.setFillColor(Color(0, 0, 0, static_cast<unsigned char>(colorAlpha)));
 }
 
-int StatePlay::handleEvents(Event& event)
+int StatePlay::handleEvent(Event& event)
 {
 
     while (_window->pollEvent(event))
@@ -165,7 +165,7 @@ int StatePlay::handleEvents(Event& event)
         }
 
     }
-    if (switchToFailureScreen)return Game::FAILURE;
+    if (changeToFailScreen)return Game::FAILURE;
     return STATE_ID;
 
 }
@@ -174,19 +174,19 @@ void StatePlay::render()
 {
     _window->clear();
 
-    for (unsigned int i = 0; i <mapTiles.size(); i++)
-        _window->draw(mapTiles[i]);
+    for (unsigned int i = 0; i <fieldBoxes.size(); i++)
+        _window->draw(fieldBoxes[i]);
 
-    _window->draw(*_apple);
+    _window->draw(*_food);
 
     if(drawSnake)_window->draw(*_snake);
 
-    _window->draw(transparentBackgroundLayer);
+    _window->draw(backgroundLayer);
 
     _window->display();
 }
 
-bool StatePlay::playFailureAnimation()
+bool StatePlay::failAnimation()
 {
     static int animationCounter;
 

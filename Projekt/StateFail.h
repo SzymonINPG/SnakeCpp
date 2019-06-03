@@ -10,7 +10,7 @@ public:
     ~StateFail() override;
 private:
     Text title;
-    Text menuOptions[2];
+    Text options[2];
     Texture backgroundTexture;
     Sprite backgroundImage;
     void titleInit();
@@ -18,8 +18,8 @@ private:
 
 public:
     virtual void init() override;
-    virtual void update() override;
-    virtual int handleEvents(Event&) override;
+    virtual void refresh() override;
+    virtual int handleEvent(Event&) override;
     virtual void render() override;
 };
 
